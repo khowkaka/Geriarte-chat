@@ -1,0 +1,44 @@
+name: Build Google Play AAB APK
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Verify icon pack
+        run: |
+          test -f app/src/main/res/mipmap-mdpi/ic_launcher.png
+          test -f app/src/main/res/mipmap-hdpi/ic_launcher.png
+          test -f app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          test -f app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          test -f app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+          test -f app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+      - name: Restore signing keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/release-keystore.p12
+      - name: Build signed APK and AAB
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          STORE_TYPE: ${{ secrets.STORE_TYPE }}
+        run: gradle assembleRelease bundleRelease
+      - uses: actions/upload-artifact@v4
+        with:
+          name: google-play-build
+          path: |
+            app/build/outputs/apk/release/*.apk
+            app/build/outputs/bundle/release/*.aab
