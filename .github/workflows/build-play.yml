@@ -36,7 +36,7 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           STORE_TYPE: ${{ secrets.STORE_TYPE }}
-        run: ${{ steps.gradlecmd.outputs.cmd }} assembleRelease bundleRelease
+        run: ${{ steps.gradlecmd.outputs.cmd }} clean assembleRelease bundleRelease --warning-mode all
       - uses: actions/upload-artifact@v4
         with:
           name: google-play-build
