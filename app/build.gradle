@@ -4,17 +4,6 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        release {
-            signingConfig signingConfigs.release
-            storeFile file("release-keystore.p12")
-            storePassword System.getenv("KEYSTORE_PASSWORD")
-            keyAlias System.getenv("KEY_ALIAS")
-            keyPassword System.getenv("KEY_PASSWORD")
-            storeType System.getenv("STORE_TYPE") ?: "pkcs12"
-        }
-    }
-
     namespace 'com.webview.geriartechat'
     compileSdk 35
 
@@ -25,10 +14,34 @@ android {
         versionCode 1
         versionName '1.0.0'
     }
+
+    signingConfigs {
+        release {
+            storeFile file('release-keystore.p12')
+            storePassword System.getenv('KEYSTORE_PASSWORD')
+            keyAlias System.getenv('KEY_ALIAS')
+            keyPassword System.getenv('KEY_PASSWORD')
+            storeType System.getenv('STORE_TYPE') ?: 'pkcs12'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
 }
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.core:core:1.13.1'
     implementation 'androidx.webkit:webkit:1.11.0'
     implementation 'com.google.firebase:firebase-messaging:24.0.3'
 }
