@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "553371371358",
+    "project_id": "geriarte-chat",
+    "storage_bucket": "geriarte-chat.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553371371358:android:a92d9f8ccb3d76c35571cf",
+        "android_client_info": {
+          "package_name": "com.webview.geriartechat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCElRrO-1ccc40Bg-XxMSx0QjeA60Y_J6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
