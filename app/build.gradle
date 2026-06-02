@@ -4,6 +4,17 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            signingConfig signingConfigs.release
+            storeFile file("release-keystore.p12")
+            storePassword System.getenv("KEYSTORE_PASSWORD")
+            keyAlias System.getenv("KEY_ALIAS")
+            keyPassword System.getenv("KEY_PASSWORD")
+            storeType System.getenv("STORE_TYPE") ?: "pkcs12"
+        }
+    }
+
     namespace 'com.webview.geriartechat'
     compileSdk 35
 
